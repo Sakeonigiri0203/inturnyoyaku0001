@@ -648,16 +648,7 @@ function renderCompanyDetail() {
                 ${selectedCompany}
             </h2>
 
-            <img
-              src="${companyInfo.image}"
-              alt="${selectedCompany}"
-              class="company-image"
-            >
-      
-          <div class="detail-row">
-
-
-            <div class="detail-row">
+            /*<div class="detail-row">*/
 
                 <div class="detail-label">
                     所在地
