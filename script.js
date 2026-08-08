@@ -1,291 +1,466 @@
-// =============================
-// インターンシップデータ
-// =============================
+/* =========================================================
+   インターンシップ情報
+========================================================= */
 
 const data = {
+
     "北海道": {
+
         "北海道": {
+
             "XX 株式会社": {
+
                 category: "製造系企業",
-                description: "北海道にある製造系企業です。"
+
+                description:
+                    "北海道にある製造系企業です。"
             }
         }
     },
 
+
     "東北": {
+
         "青森県": {
+
             "AA 株式会社": {
+
                 category: "情報系の会社",
-                description: "情報・通信系の企業です。"
+
+                description:
+                    "情報・通信系の企業です。"
             },
 
             "AB 株式会社": {
+
                 category: "商社",
-                description: "商社系の企業です。"
+
+                description:
+                    "商社系の企業です。"
             }
         },
+
 
         "岩手県": {
+
             "AC 株式会社": {
+
                 category: "金融系会社",
-                description: "金融系の企業です。"
+
+                description:
+                    "金融系の企業です。"
             }
         },
+
 
         "山形県": {
+
             "AD 株式会社": {
+
                 category: "証券会社",
-                description: "証券系の企業です。"
+
+                description:
+                    "証券系の企業です。"
             }
         },
 
+
         "宮城県": {},
+
         "福島県": {}
     },
 
+
     "関東": {
+
         "茨城県": {},
+
         "群馬県": {},
+
         "栃木県": {},
+
         "埼玉県": {},
+
         "東京都": {}
     },
 
+
     "中部": {},
+
     "近畿": {},
+
     "中国・四国": {},
+
+
     "九州・沖縄": {
+
         "福岡県": {},
+
         "沖縄県": {}
     }
 };
 
 
-// =============================
-// 現在の状態
-// =============================
-
-let step = 1;
+/* =========================================================
+   現在の状態
+========================================================= */
 
 let selectedRegion = "";
+
 let selectedPrefecture = "";
+
 let selectedCompany = "";
 
-let selectedDate = "";
-let selectedTime = "";
+let startDate = null;
+
+let endDate = null;
 
 
-// =============================
-// HTMLを表示
-// =============================
+/*
+   カレンダーに表示している月
 
-const app = document.getElementById("app");
+   JavaScriptでは
+   0 = 1月
+   1 = 2月
+   ...
+   7 = 8月
+*/
+
+let calendarYear = 2026;
+
+let calendarMonth = 7;
 
 
-// =============================
-// 地方選択
-// =============================
+/* =========================================================
+   HTML
+========================================================= */
+
+const app =
+    document.getElementById("app");
+
+const breadcrumb =
+    document.getElementById("breadcrumb");
+
+
+/* =========================================================
+   パンくず表示
+========================================================= */
+
+function updateBreadcrumb() {
+
+    let html = "";
+
+    html += `<span>地域</span>`;
+
+    if (selectedRegion) {
+
+        html += `　›　<span>
+                    ${selectedRegion}
+                </span>`;
+    }
+
+    if (selectedPrefecture) {
+
+        html += `　›　<span>
+                    ${selectedPrefecture}
+                </span>`;
+    }
+
+    if (selectedCompany) {
+
+        html += `　›　<span>
+                    ${selectedCompany}
+                </span>`;
+    }
+
+    breadcrumb.innerHTML = html;
+}
+
+
+/* =========================================================
+   地方を表示
+========================================================= */
 
 function renderRegions() {
 
-    step = 1;
+    selectedPrefecture = "";
+
+    selectedCompany = "";
+
+    startDate = null;
+
+    endDate = null;
+
+    updateBreadcrumb();
+
 
     let html = `
-        <h2 class="step-title">地域を選択</h2>
+
+        <h2 class="step-title">
+            地域を選択
+        </h2>
 
         <div class="card-list">
     `;
 
+
     Object.keys(data).forEach(region => {
 
         html += `
-            <div class="card"
-                 onclick="selectRegion('${region}')">
+
+            <div
+                class="card"
+                onclick="selectRegion('${region}')">
 
                 <div class="card-title">
                     ${region}
                 </div>
 
-                <div>›</div>
+                <div class="arrow">
+                    ›
+                </div>
 
             </div>
+
         `;
     });
 
+
     html += `</div>`;
+
 
     app.innerHTML = html;
 }
 
 
-// =============================
-// 地方を選択
-// =============================
+/* =========================================================
+   地方選択
+========================================================= */
 
 function selectRegion(region) {
 
     selectedRegion = region;
 
+    selectedPrefecture = "";
+
+    selectedCompany = "";
+
+    updateBreadcrumb();
+
     renderPrefectures();
 }
 
 
-// =============================
-// 都道府県選択
-// =============================
+/* =========================================================
+   都道府県を表示
+========================================================= */
 
 function renderPrefectures() {
 
-    step = 2;
+    const prefectures =
+        data[selectedRegion];
 
-    const prefectures = data[selectedRegion];
 
     let html = `
+
         <h2 class="step-title">
-            都道府県を選択（${selectedRegion}）
+            都道府県を選択
         </h2>
 
         <div class="card-list">
     `;
 
-    Object.keys(prefectures).forEach(prefecture => {
 
-        html += `
-            <div class="card"
-                 onclick="selectPrefecture('${prefecture}')">
+    Object.keys(prefectures)
+        .forEach(prefecture => {
 
-                <div class="card-title">
-                    ${prefecture}
+            html += `
+
+                <div
+                    class="card"
+                    onclick="selectPrefecture('${prefecture}')">
+
+                    <div class="card-title">
+                        ${prefecture}
+                    </div>
+
+                    <div class="arrow">
+                        ›
+                    </div>
+
                 </div>
 
-                <div>›</div>
+            `;
+        });
 
-            </div>
-        `;
-    });
 
     html += `
 
         </div>
 
-        <button class="button back-button"
-                onclick="renderRegions()">
-            戻る
+        <button
+            class="button back-button"
+            onclick="renderRegions()">
+
+            ← 地域選択に戻る
+
         </button>
+
     `;
+
 
     app.innerHTML = html;
 }
 
 
-// =============================
-// 都道府県を選択
-// =============================
+/* =========================================================
+   都道府県選択
+========================================================= */
 
 function selectPrefecture(prefecture) {
 
     selectedPrefecture = prefecture;
 
+    selectedCompany = "";
+
+    updateBreadcrumb();
+
     renderCompanies();
 }
 
 
-// =============================
-// 企業選択
-// =============================
+/* =========================================================
+   企業を表示
+========================================================= */
 
 function renderCompanies() {
 
-    step = 3;
-
     const companies =
-        data[selectedRegion][selectedPrefecture];
+        data[selectedRegion]
+            [selectedPrefecture];
 
-    const companyNames = Object.keys(companies);
+
+    const companyNames =
+        Object.keys(companies);
+
 
     let html = `
+
         <h2 class="step-title">
-            企業を選択（${selectedPrefecture}）
+            企業を選択
         </h2>
 
         <div class="card-list">
     `;
 
+
     if (companyNames.length === 0) {
 
         html += `
-            <p>
-                現在登録されている企業はありません。
-            </p>
+
+            <div class="detail-box">
+
+                <p>
+                    現在登録されている企業はありません。
+                </p>
+
+            </div>
+
         `;
 
     } else {
 
         companyNames.forEach(company => {
 
-            const info = companies[company];
+            const companyInfo =
+                companies[company];
+
 
             html += `
-                <div class="card"
-                     onclick="selectCompany('${company}')">
 
-                    <div class="card-title">
-                        ${company}
+                <div
+                    class="card"
+                    onclick="selectCompany('${company}')">
+
+                    <div>
+
+                        <div class="card-title">
+                            ${company}
+                        </div>
+
+                        <div class="card-sub">
+                            ${companyInfo.category}
+                        </div>
+
                     </div>
 
-                    <div class="card-sub">
-                        ${info.category}
+                    <div class="arrow">
+                        ›
                     </div>
 
                 </div>
+
             `;
         });
     }
+
 
     html += `
 
         </div>
 
-        <button class="button back-button"
-                onclick="renderPrefectures()">
-            戻る
+
+        <button
+            class="button back-button"
+            onclick="renderPrefectures()">
+
+            ← 都道府県選択に戻る
+
         </button>
+
     `;
+
 
     app.innerHTML = html;
 }
 
 
-// =============================
-// 企業を選択
-// =============================
+/* =========================================================
+   企業選択
+========================================================= */
 
 function selectCompany(company) {
 
     selectedCompany = company;
 
+    startDate = null;
+
+    endDate = null;
+
+    updateBreadcrumb();
+
     renderCompanyDetail();
 }
 
 
-// =============================
-// 企業詳細
-// =============================
+/* =========================================================
+   企業詳細
+========================================================= */
 
 function renderCompanyDetail() {
 
-    step = 4;
-
-    const company =
+    const companyInfo =
         data[selectedRegion]
             [selectedPrefecture]
             [selectedCompany];
 
-    app.innerHTML = `
+
+    let html = `
 
         <h2 class="step-title">
             企業詳細
         </h2>
+
 
         <div class="detail-box">
 
@@ -293,77 +468,178 @@ function renderCompanyDetail() {
                 ${selectedCompany}
             </h2>
 
-            <p>
-                <strong>所在地：</strong>
-                ${selectedPrefecture}
-            </p>
 
-            <p>
-                <strong>業種：</strong>
-                ${company.category}
-            </p>
+            <div class="detail-row">
 
-            <p>
-                ${company.description}
-            </p>
+                <div class="detail-label">
+                    所在地
+                </div>
 
-            <button class="button"
-                    onclick="renderCalendar()">
-                日程を選択する
+                <div>
+                    ${selectedPrefecture}
+                </div>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <div class="detail-label">
+                    業種
+                </div>
+
+                <div>
+                    ${companyInfo.category}
+                </div>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <div class="detail-label">
+                    内容
+                </div>
+
+                <div>
+                    ${companyInfo.description}
+                </div>
+
+            </div>
+
+
+            <button
+                class="button"
+                onclick="startDateSelection()">
+
+                インターン期間を選択する
+
             </button>
 
-            <button class="button back-button"
-                    onclick="renderCompanies()">
-                戻る
+
+            <button
+                class="button back-button"
+                onclick="renderCompanies()">
+
+                ← 企業選択に戻る
+
             </button>
 
         </div>
+
     `;
+
+
+    app.innerHTML = html;
 }
 
 
-// =============================
-// カレンダー
-// =============================
+/* =========================================================
+   開始日の選択
+========================================================= */
 
-function renderCalendar() {
+function startDateSelection() {
 
-    step = 5;
+    startDate = null;
 
-    const year = 2026;
-    const month = 7; // 8月。JavaScriptでは0始まり
+    endDate = null;
+
+    renderCalendar("start");
+}
+
+
+/* =========================================================
+   カレンダー表示
+========================================================= */
+
+function renderCalendar(mode) {
+
+    updateBreadcrumb();
+
+
+    let message = "";
+
+
+    if (mode === "start") {
+
+        message = `
+            インターンの
+            <strong>開始日</strong>
+            を選択してください。
+        `;
+
+    } else {
+
+        message = `
+            インターンの
+            <strong>終了日</strong>
+            を選択してください。
+        `;
+    }
+
 
     const firstDay =
-        new Date(year, month, 1).getDay();
+        new Date(
+            calendarYear,
+            calendarMonth,
+            1
+        ).getDay();
+
 
     const lastDate =
-        new Date(year, month + 1, 0).getDate();
+        new Date(
+            calendarYear,
+            calendarMonth + 1,
+            0
+        ).getDate();
+
+
+    const monthText =
+        `${calendarYear}年${calendarMonth + 1}月`;
+
 
     let html = `
 
         <h2 class="step-title">
-            日付を選択
+            インターン期間を選択
         </h2>
 
-        <div class="calendar">
+
+        <div class="date-box">
+
+            <div class="date-message">
+                ${message}
+            </div>
+
 
             <div class="calendar-header">
 
-                <button onclick="changeMonth(-1)">
+                <button
+                    class="month-button"
+                    onclick="changeMonth(-1, '${mode}')">
+
                     ‹
+
                 </button>
 
-                <strong>
-                    ${year}年${month + 1}月
-                </strong>
 
-                <button onclick="changeMonth(1)">
+                <div class="month-title">
+                    ${monthText}
+                </div>
+
+
+                <button
+                    class="month-button"
+                    onclick="changeMonth(1, '${mode}')">
+
                     ›
+
                 </button>
 
             </div>
 
-            <div class="calendar-grid">
+
+            <div class="weekdays">
 
                 <div>日</div>
                 <div>月</div>
@@ -372,240 +648,575 @@ function renderCalendar() {
                 <div>木</div>
                 <div>金</div>
                 <div>土</div>
+
+            </div>
+
+
+            <div class="calendar-grid">
     `;
 
-    // 月初までの空白
-    for (let i = 0; i < firstDay; i++) {
+
+    /* 月初までの空白 */
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
 
         html += `
-            <div></div>
+            <div class="calendar-empty"></div>
         `;
     }
 
-    // 日付
-    for (let day = 1; day <= lastDate; day++) {
+
+    /* 日付 */
+
+    for (
+        let day = 1;
+        day <= lastDate;
+        day++
+    ) {
+
+        const date =
+            createDateString(
+                calendarYear,
+                calendarMonth,
+                day
+            );
+
+
+        let classes =
+            "calendar-day";
+
+
+        /*
+           開始日
+        */
+
+        if (
+            startDate === date
+        ) {
+
+            classes +=
+                " selected-start";
+        }
+
+
+        /*
+           終了日
+        */
+
+        if (
+            endDate === date
+        ) {
+
+            classes +=
+                " selected-end";
+        }
+
+
+        /*
+           開始日～終了日の間
+        */
+
+        if (
+            startDate &&
+            endDate &&
+            date > startDate &&
+            date < endDate
+        ) {
+
+            classes +=
+                " in-range";
+        }
+
+
+        /*
+           終了日を選ぶとき、
+
+           開始日より前の日は
+           選択できない
+        */
+
+        let disabled = false;
+
+
+        if (
+            mode === "end" &&
+            startDate &&
+            date < startDate
+        ) {
+
+            disabled = true;
+
+            classes +=
+                " disabled";
+        }
+
 
         html += `
-            <div class="calendar-day"
-                 onclick="selectDate('${year}-${month + 1}-${day}')">
+
+            <button
+                class="${classes}"
+                ${disabled ? "disabled" : ""}
+                onclick="selectCalendarDate('${date}', '${mode}')">
 
                 ${day}
 
-            </div>
+            </button>
+
         `;
     }
 
+
     html += `
+
             </div>
+
+
+            <div class="selected-period">
+
+                <div class="period-card">
+
+                    <span class="period-label">
+                        開始日
+                    </span>
+
+                    <span class="period-date">
+
+                        ${
+                            startDate
+                            ? formatDate(startDate)
+                            : "未選択"
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <div class="period-card">
+
+                    <span class="period-label">
+                        終了日
+                    </span>
+
+                    <span class="period-date">
+
+                        ${
+                            endDate
+                            ? formatDate(endDate)
+                            : "未選択"
+                        }
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="button back-button"
+                onclick="renderCompanyDetail()">
+
+                ← 企業詳細に戻る
+
+            </button>
 
         </div>
 
-        <button class="button back-button"
-                onclick="renderCompanyDetail()">
-            戻る
-        </button>
     `;
+
 
     app.innerHTML = html;
 }
 
 
-// =============================
-// 日付選択
-// =============================
+/* =========================================================
+   カレンダーの日付選択
+========================================================= */
 
-function selectDate(date) {
+function selectCalendarDate(date, mode) {
 
-    selectedDate = date;
 
-    renderTimes();
+    /*
+       開始日を選択
+    */
+
+    if (mode === "start") {
+
+        startDate = date;
+
+        endDate = null;
+
+
+        /*
+           開始日を選択したら、
+           自動的に終了日選択へ
+        */
+
+        renderCalendar("end");
+
+        return;
+    }
+
+
+    /*
+       終了日を選択
+    */
+
+    if (mode === "end") {
+
+        /*
+           開始日より前は選択不可
+        */
+
+        if (
+            startDate &&
+            date < startDate
+        ) {
+
+            return;
+        }
+
+
+        endDate = date;
+
+
+        /*
+           両方選択できたら
+           確認画面へ
+        */
+
+        renderConfirm();
+
+        return;
+    }
 }
 
 
-// =============================
-// 時間選択
-// =============================
+/* =========================================================
+   月を変更
+========================================================= */
 
-function renderTimes() {
+function changeMonth(direction, mode) {
 
-    step = 6;
+    calendarMonth += direction;
 
-    const times = [
-        "09:00 ～ 10:00",
-        "10:00 ～ 11:00",
-        "11:00 ～ 12:00",
-        "13:00 ～ 14:00",
-        "14:00 ～ 15:00",
-        "15:00 ～ 16:00",
-        "16:00 ～ 17:00",
-        "17:00 ～ 18:00"
+
+    if (calendarMonth < 0) {
+
+        calendarMonth = 11;
+
+        calendarYear--;
+    }
+
+
+    if (calendarMonth > 11) {
+
+        calendarMonth = 0;
+
+        calendarYear++;
+    }
+
+
+    renderCalendar(mode);
+}
+
+
+/* =========================================================
+   日付文字列を作成
+========================================================= */
+
+function createDateString(
+    year,
+    month,
+    day
+) {
+
+    const m =
+        String(month + 1)
+            .padStart(2, "0");
+
+    const d =
+        String(day)
+            .padStart(2, "0");
+
+
+    return `${year}-${m}-${d}`;
+}
+
+
+/* =========================================================
+   日付表示を日本語にする
+========================================================= */
+
+function formatDate(dateString) {
+
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+
+    const week = [
+        "日",
+        "月",
+        "火",
+        "水",
+        "木",
+        "金",
+        "土"
     ];
+
+
+    return `
+        ${date.getFullYear()}年
+        ${date.getMonth() + 1}月
+        ${date.getDate()}日
+        (${week[date.getDay()]})
+    `;
+}
+
+
+/* =========================================================
+   予約内容確認
+========================================================= */
+
+function renderConfirm() {
+
+    updateBreadcrumb();
+
+
+    /*
+       日数を計算
+    */
+
+    const start =
+        new Date(
+            startDate + "T00:00:00"
+        );
+
+    const end =
+        new Date(
+            endDate + "T00:00:00"
+        );
+
+
+    const diff =
+        end - start;
+
+
+    const days =
+        Math.floor(
+            diff /
+            (1000 * 60 * 60 * 24)
+        ) + 1;
+
 
     let html = `
 
         <h2 class="step-title">
-            時間を選択
+            インターン内容の確認
         </h2>
 
-        <p>
-            ${selectedDate}
-        </p>
 
-        <div class="time-list">
-    `;
+        <div class="confirm-box">
 
-    times.forEach(time => {
 
-        html += `
+            <div class="confirm-row">
+
+                <div class="confirm-label">
+                    企業
+                </div>
+
+                <div class="confirm-value">
+                    ${selectedCompany}
+                </div>
+
+            </div>
+
+
+            <div class="confirm-row">
+
+                <div class="confirm-label">
+                    地域
+                </div>
+
+                <div class="confirm-value">
+                    ${selectedRegion}
+                </div>
+
+            </div>
+
+
+            <div class="confirm-row">
+
+                <div class="confirm-label">
+                    都道府県
+                </div>
+
+                <div class="confirm-value">
+                    ${selectedPrefecture}
+                </div>
+
+            </div>
+
+
+            <div class="confirm-row">
+
+                <div class="confirm-label">
+                    開始日
+                </div>
+
+                <div class="confirm-value">
+                    ${formatDate(startDate)}
+                </div>
+
+            </div>
+
+
+            <div class="confirm-row">
+
+                <div class="confirm-label">
+                    終了日
+                </div>
+
+                <div class="confirm-value">
+                    ${formatDate(endDate)}
+                </div>
+
+            </div>
+
+
+            <div class="confirm-row">
+
+                <div class="confirm-label">
+                    期間
+                </div>
+
+                <div class="confirm-value">
+                    ${days}日間
+                </div>
+
+            </div>
+
+
             <button
-                class="time-button"
-                onclick="selectTime('${time}')">
+                class="button"
+                onclick="reservationComplete()">
 
-                ${time}
+                この内容で申し込む
 
             </button>
-        `;
-    });
 
-    html += `
+
+            <button
+                class="button back-button"
+                onclick="renderCalendar('end')">
+
+                ← 日付を変更する
+
+            </button>
+
+
         </div>
 
-        <button class="button back-button"
-                onclick="renderCalendar()">
-            戻る
-        </button>
     `;
+
 
     app.innerHTML = html;
 }
 
 
-// =============================
-// 時間選択
-// =============================
-
-function selectTime(time) {
-
-    selectedTime = time;
-
-    renderConfirm();
-}
-
-
-// =============================
-// 予約確認
-// =============================
-
-function renderConfirm() {
-
-    step = 7;
-
-    app.innerHTML = `
-
-        <h2 class="step-title">
-            予約内容の確認
-        </h2>
-
-        <div class="confirm-box">
-
-            <div class="confirm-row">
-                <span>企業</span>
-                <strong>
-                    ${selectedCompany}
-                </strong>
-            </div>
-
-            <div class="confirm-row">
-                <span>地域</span>
-                <strong>
-                    ${selectedRegion}
-                </strong>
-            </div>
-
-            <div class="confirm-row">
-                <span>都道府県</span>
-                <strong>
-                    ${selectedPrefecture}
-                </strong>
-            </div>
-
-            <div class="confirm-row">
-                <span>日付</span>
-                <strong>
-                    ${selectedDate}
-                </strong>
-            </div>
-
-            <div class="confirm-row">
-                <span>時間</span>
-                <strong>
-                    ${selectedTime}
-                </strong>
-            </div>
-
-            <button class="button"
-                    onclick="reservationComplete()">
-                この内容で予約する
-            </button>
-
-            <button class="button back-button"
-                    onclick="renderTimes()">
-                戻る
-            </button>
-
-        </div>
-    `;
-}
-
-
-// =============================
-// 予約完了
-// =============================
+/* =========================================================
+   申込完了
+========================================================= */
 
 function reservationComplete() {
 
+    updateBreadcrumb();
+
+
     app.innerHTML = `
 
-        <div class="detail-box">
+        <div class="complete-box">
+
+            <div class="complete-icon">
+                ✓
+            </div>
+
 
             <h2>
-                予約を受け付けました
+                申し込みを受け付けました
             </h2>
 
-            <p>
-                ご予約ありがとうございます。
-            </p>
 
             <p>
-                ${selectedCompany}<br>
-                ${selectedDate}<br>
-                ${selectedTime}
+                インターンシップのお申し込み
+                ありがとうございます。
             </p>
 
-            <button class="button"
-                    onclick="renderRegions()">
-                最初に戻る
+
+            <p>
+
+                <strong>
+                    ${selectedCompany}
+                </strong>
+
+                <br>
+
+                ${formatDate(startDate)}
+
+                ～
+
+                ${formatDate(endDate)}
+
+            </p>
+
+
+            <button
+                class="button"
+                onclick="resetAll()">
+
+                最初の画面に戻る
+
             </button>
 
         </div>
+
     `;
 }
 
 
-// =============================
-// 月変更（後で本格実装）
-// =============================
+/* =========================================================
+   最初に戻る
+========================================================= */
 
-function changeMonth(direction) {
+function resetAll() {
 
-    alert(
-        "ここにカレンダーの月変更処理を追加できます。"
-    );
+    selectedRegion = "";
+
+    selectedPrefecture = "";
+
+    selectedCompany = "";
+
+    startDate = null;
+
+    endDate = null;
+
+    calendarYear = 2026;
+
+    calendarMonth = 7;
+
+    renderRegions();
 }
 
 
-// =============================
-// 最初の画面
-// =============================
+/* =========================================================
+   最初の画面
+========================================================= */
 
 renderRegions();
