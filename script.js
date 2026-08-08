@@ -1455,12 +1455,12 @@ function renderConfirm() {
             </button>
 
 
-            <button
+           <button
                 class="button back-button"
-                onclick="renderCalendar('end')">
-
-                ← 日付を変更する
-
+                onclick="renderAvailablePeriods()">
+            
+                ← 期間を変更する
+            
             </button>
 
 
