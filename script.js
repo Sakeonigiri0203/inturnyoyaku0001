@@ -648,8 +648,6 @@ function renderCompanyDetail() {
                 ${selectedCompany}
             </h2>
 
-            /*<div class="detail-row">*/
-
                 <div class="detail-label">
                     所在地
                 </div>
