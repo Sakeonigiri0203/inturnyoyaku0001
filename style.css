@@ -636,4 +636,12 @@ body {
 
         font-size: 13px;
     }
+   .company-image {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 20px auto 30px;
+    border-radius: 10px;
+   }
 }
