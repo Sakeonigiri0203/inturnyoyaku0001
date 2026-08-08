@@ -635,8 +635,10 @@ body {
         min-height: 42px;
 
         font-size: 13px;
-    }
-   .company-image {
+    }  
+}
+
+ .company-image {
     display: block;
     width: 100%;
     max-width: 600px;
@@ -644,4 +646,3 @@ body {
     margin: 20px auto 30px;
     border-radius: 10px;
    }
-}
