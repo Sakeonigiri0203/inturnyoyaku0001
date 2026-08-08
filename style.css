@@ -254,15 +254,17 @@ body {
 
 .detail-row {
 
-    display: flex;
+    display: grid;
+
+    grid-template-columns: 120px 1fr;
 
     gap: 20px;
 
-    padding:
-        12px 0;
+    padding: 15px 0;
 
-    border-bottom:
-        1px solid #eee;
+    border-bottom: 1px solid #eee;
+
+    line-height: 1.8;
 }
 
 .detail-label {
