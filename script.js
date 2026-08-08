@@ -17,6 +17,8 @@ const data = {
                
                 problem:
                     "会社の後継者不足→若者へのアプローチは何か？",
+               　image: 
+                   "playground08081613.png",
                
                 internshipContent: [
                     {
@@ -718,7 +720,13 @@ function renderCompanyDetail() {
       
               `).join("")}
       
-          </div>
+          <div class="company-image">
+
+    <img
+        src="${companyInfo.image}"
+        alt="${selectedCompany}の外観写真">
+
+   </div>
       
       </div>
 
