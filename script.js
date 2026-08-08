@@ -10,10 +10,42 @@ const data = {
 
             "株式会社オホーツクブルー": {
 
-                category: "水産業企業",
+                category: "酒造会社",
 
                 description:
-                    "北海道の水産加工物を生産・開発する企業です。",
+                    "北海道の地酒を開発・醸造する企業です。",
+               
+                ploblem:
+                    "会社の後継者不足→若者へのアプローチは何か？",
+            
+                internshipContent: [
+                    {
+                        day: "1日目",
+                        content: "企業職員からの今の会社の現状を聴き、チームごとに課題を決定する"
+                    },
+                    {
+                        day: "2日目",
+                        content: "課題の解決案の洗い出し、企業へインタビューして生の声を聴く、課題に対する解決策の作成"
+                    },
+                    {
+                        day: "3日目",
+                        content: "中間発表、アドバイスをもとに最終発表のための準備"
+                    }
+
+                   {
+                        day: "4日目",
+                        content: "最終発表と講評をもらう"
+                    },
+                    {
+                        day: "5日目",
+                        content: "地酒の試飲会(20歳未満の学生は別の企画あり)、1日自由観光デー"
+                    },
+                    {
+                        day: "6日目",
+                        content: "まとめ、総括"
+                    }
+                ],
+
                 periods: [
 
                     {
@@ -23,7 +55,7 @@ const data = {
             
                     {
                         start: "2026-09-01",
-                        end: "2026-09-05"
+                        end: "2026-09-06"
                     },
             
                     {
@@ -655,6 +687,47 @@ function renderCompanyDetail() {
                 </div>
 
             </div>
+
+            <div class="detail-row">
+
+    <div class="detail-label">
+        課題
+    </div>
+
+    <div>
+        ${companyInfo.problem}
+    </div>
+
+</div>
+
+
+<div class="detail-row">
+
+    <div class="detail-label">
+        インターンシップ内容
+    </div>
+
+    <div>
+
+        ${companyInfo.internshipContent.map(item => `
+
+            <div class="internship-day">
+
+                <strong>
+                    ${item.day}
+                </strong>
+
+                <p>
+                    ${item.content}
+                </p>
+
+               </div>
+      
+              `).join("")}
+      
+          </div>
+      
+      </div>
 
 
             <button
