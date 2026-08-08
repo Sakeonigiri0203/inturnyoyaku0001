@@ -17,6 +17,8 @@ const data = {
                
                 problem:
                     "会社の後継者不足→若者へのアプローチは何か？",
+                image: 
+                    "images/okhotsk_blue.jpg",
             
                 internshipContent: [
                     {
