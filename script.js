@@ -648,6 +648,7 @@ function renderCompanyDetail() {
                 ${selectedCompany}
             </h2>
 
+          <div class="detail-row">
                 <div class="detail-label">
                     所在地
                 </div>
@@ -656,8 +657,7 @@ function renderCompanyDetail() {
                     ${selectedPrefecture}
                 </div>
 
-            <div class="detail-row">
-
+           
                 <div class="detail-label">
                     業種
                 </div>
