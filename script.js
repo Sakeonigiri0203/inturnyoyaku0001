@@ -540,11 +540,132 @@ function renderCompanyDetail() {
 
 function startDateSelection() {
 
-    startDate = null;
+    renderAvailablePeriods();
+}
 
-    endDate = null;
+function renderAvailablePeriods() {
 
-    renderCalendar("start");
+    const companyInfo =
+        data[selectedRegion]
+            [selectedPrefecture]
+            [selectedCompany];
+
+    const periods =
+        companyInfo.periods;
+
+    let html = `
+
+        <h2 class="step-title">
+            インターン受入期間を選択
+        </h2>
+
+        <p>
+            ${selectedCompany}が提示している
+            受入期間から選択してください。
+        </p>
+
+        <div class="card-list">
+    `;
+
+
+    periods.forEach((period, index) => {
+
+        const start =
+            new Date(
+                period.start + "T00:00:00"
+            );
+
+        const end =
+            new Date(
+                period.end + "T00:00:00"
+            );
+
+
+        const diff =
+            end - start;
+
+
+        const days =
+            Math.floor(
+                diff /
+                (1000 * 60 * 60 * 24)
+            ) + 1;
+
+
+        html += `
+
+            <div
+                class="card"
+                onclick="selectPeriod(${index})">
+
+                <div>
+
+                    <div class="card-title">
+
+                        ${formatDate(period.start)}
+
+                        ～
+
+                        ${formatDate(period.end)}
+
+                    </div>
+
+                    <div class="card-sub">
+
+                        ${days}日間
+
+                    </div>
+
+                </div>
+
+                <div class="arrow">
+                    ›
+                </div>
+
+            </div>
+
+        `;
+    });
+
+
+    html += `
+
+        </div>
+
+        <button
+            class="button back-button"
+            onclick="renderCompanyDetail()">
+
+            ← 企業詳細に戻る
+
+        </button>
+
+    `;
+
+
+    app.innerHTML = html;
+}
+
+function selectPeriod(index) {
+
+    const companyInfo =
+        data[selectedRegion]
+            [selectedPrefecture]
+            [selectedCompany];
+
+
+    const period =
+        companyInfo.periods[index];
+
+
+    startDate =
+        period.start;
+
+    endDate =
+        period.end;
+
+
+    renderConfirm();
 }
 
 
