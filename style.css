@@ -209,6 +209,7 @@ body {
     cursor: pointer;
 }
 
+
 .button:hover {
 
     background: #1558d6;
@@ -638,4 +639,17 @@ body {
 
         font-size: 13px;
     }  
+}
+.company-image {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.company-image img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
 }
