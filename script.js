@@ -656,9 +656,6 @@ function renderCompanyDetail() {
                     ${selectedPrefecture}
                 </div>
 
-            </div>
-
-
             <div class="detail-row">
 
                 <div class="detail-label">
