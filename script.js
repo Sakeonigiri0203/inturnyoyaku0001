@@ -1363,7 +1363,7 @@ function renderConfirm() {
     let html = `
 
         <h2 class="step-title">
-            活動期間の確認
+            選択した情報の確認
         </h2>
 
 
