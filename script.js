@@ -1461,7 +1461,7 @@ function renderConfirm() {
                 class="button back-button"
                 onclick="renderAvailablePeriods()">
             
-                ← 期間を変更する
+                ← 選択を変更する
             
             </button>
 
