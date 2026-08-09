@@ -699,7 +699,7 @@ function renderCompanyDetail() {
 <div class="detail-row">
 
     <div class="detail-label">
-        インターンシップ内容
+        日別スケージュール
     </div>
 
     <div>
@@ -735,7 +735,7 @@ function renderCompanyDetail() {
                 class="button"
                 onclick="startDateSelection()">
 
-                インターン期間を選択する
+                活動期間を選択する
 
             </button>
 
@@ -779,12 +779,12 @@ function renderAvailablePeriods() {
     let html = `
 
         <h2 class="step-title">
-            インターン受入期間を選択
+            活動可能期間を選択
         </h2>
 
         <p>
             ${selectedCompany}が提示している
-            受入期間から選択してください。
+            活動可能期間から選択してください。
         </p>
 
         <div class="card-list">
@@ -1363,7 +1363,7 @@ function renderConfirm() {
     let html = `
 
         <h2 class="step-title">
-            インターン内容の確認
+            活動期間の確認
         </h2>
 
 
@@ -1499,8 +1499,8 @@ function reservationComplete() {
 
 
             <p>
-                インターンシップのお申し込み
-                ありがとうございます。
+                受付を完了しました。
+                ありがとうございます。当日のご参加心よりお待ちしております☆彡
             </p>
 
 
